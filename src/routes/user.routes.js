@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { registerUser } from "../controllers/user.controllers.js"; //assa naam tbhi le skte ho jb export {} kiya ho
+import { loginUser, logoutUser, refreshAccessToken, registerUser } from "../controllers/user.controllers.js"; //assa naam tbhi le skte ho jb export {} kiya ho
 import {upload} from "../middlewares/multer.middlewares.js"
+import { verifyJwt } from "../middlewares/auth.middlewears.js";
 
 
 const router = Router()
@@ -20,6 +21,13 @@ router.route("/register").post(  //this route says if the route is from /registe
     registerUser
 )
 // router.route("/login").post(loginUser)
+
+router.route("/login").post(loginUser)
+
+//****Secured Routes */
+router.route("/logout").post(verifyJwt, logoutUser)
+
+router.route("/refresh-token").post(refreshAccessToken)
 
 
 
